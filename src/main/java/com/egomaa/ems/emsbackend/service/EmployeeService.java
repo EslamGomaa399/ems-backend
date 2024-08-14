@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -75,6 +79,14 @@ public class EmployeeService{
     }
 
 
+    public List<String> getAllManagersNames() {
+        List<Integer> managerIds = employeeRepository.findAllManagerIds();
 
+        return managerIds.stream().map(managerId -> {
+            Employee employeeById = employeeRepository.findById(Long.valueOf(managerId)).get();
+            String fullName = employeeById.getFirstName() + " " + employeeById.getLastName();
+            return fullName;
+        }).collect(Collectors.toList());
+    }
 
 }
