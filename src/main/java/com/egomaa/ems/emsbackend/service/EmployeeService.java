@@ -89,4 +89,18 @@ public class EmployeeService{
         }).collect(Collectors.toList());
     }
 
+    public List<EmployeeDTO> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream()
+                .map(employee -> {
+                    EmployeeDTO employeeDTO = new EmployeeDTO();
+                    employeeDTO.setFirstName(employee.getFirstName());
+                    employeeDTO.setLastName(employee.getLastName());
+                    employeeDTO.setEmail(employee.getEmail());
+                    employeeDTO.setJobTitle(employee.getJob().getJobTitle());
+                    employeeDTO.setDepartmentName(employee.getDepartment().getDepartmentName());
+                    return employeeDTO;
+                })
+                .collect(Collectors.toList());
+    }
 }

@@ -18,6 +18,13 @@ public class EmployeeController {
 
     private final EmployeeService employeeService ;
 
+
+    @GetMapping("/employees")
+    public ResponseEntity<?> getAllEmployees(){
+        List<EmployeeDTO> allEmployees = employeeService.getAllEmployees();
+        return new ResponseEntity<>(allEmployees,HttpStatus.OK);
+    }
+
     @PostMapping("employees")
     public ResponseEntity<?> addNewEmployee(@RequestBody EmployeeDTO employeeDTO) throws ParseException {
         Employee employee = employeeService.saveEmployee(employeeDTO);
