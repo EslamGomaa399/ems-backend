@@ -25,12 +25,12 @@ public class Employee {
     private String email;
     private String phoneNumber;
 
+    private int isDeleted;
+
     @Temporal(TemporalType.DATE)
     private String hireDate;
 
     private Double salary;
-
-    private Double commissionPct;
 
     @ManyToOne
     @JoinColumn(name = "job_id")

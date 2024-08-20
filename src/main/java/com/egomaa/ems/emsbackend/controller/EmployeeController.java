@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -24,6 +26,16 @@ public class EmployeeController {
         List<EmployeeDTO> allEmployees = employeeService.getAllEmployees();
         return new ResponseEntity<>(allEmployees,HttpStatus.OK);
     }
+
+    @GetMapping("/employees/delete/{id}")
+    public ResponseEntity<?> deleteEmployeeById(@PathVariable Long id){
+        employeeService.deleteEmployeeById(id);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Employee deleted successfully");
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+
 
     @PostMapping("employees")
     public ResponseEntity<?> addNewEmployee(@RequestBody EmployeeDTO employeeDTO) throws ParseException {

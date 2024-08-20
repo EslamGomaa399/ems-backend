@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class EmployeeDTO {
 
+    private Long employeeId;
     private String firstName;
     private String lastName;
     private String email;

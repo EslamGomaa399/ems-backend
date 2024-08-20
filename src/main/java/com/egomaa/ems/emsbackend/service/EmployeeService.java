@@ -93,14 +93,23 @@ public class EmployeeService{
         List<Employee> employees = employeeRepository.findAll();
         return employees.stream()
                 .map(employee -> {
-                    EmployeeDTO employeeDTO = new EmployeeDTO();
-                    employeeDTO.setFirstName(employee.getFirstName());
-                    employeeDTO.setLastName(employee.getLastName());
-                    employeeDTO.setEmail(employee.getEmail());
-                    employeeDTO.setJobTitle(employee.getJob().getJobTitle());
-                    employeeDTO.setDepartmentName(employee.getDepartment().getDepartmentName());
-                    return employeeDTO;
+                    if (employee.getIsDeleted() == 0){
+                        EmployeeDTO employeeDTO = new EmployeeDTO();
+                        employeeDTO.setEmployeeId(employee.getEmployeeId());
+                        employeeDTO.setFirstName(employee.getFirstName());
+                        employeeDTO.setLastName(employee.getLastName());
+                        employeeDTO.setEmail(employee.getEmail());
+                        employeeDTO.setJobTitle(employee.getJob().getJobTitle());
+                        employeeDTO.setDepartmentName(employee.getDepartment().getDepartmentName());
+                        return employeeDTO;
+                    }
+                    return null;
                 })
                 .collect(Collectors.toList());
+    }
+
+
+    public void deleteEmployeeById(Long id) {
+        employeeRepository.deleteEmployee(id);
     }
 }

@@ -17,7 +17,7 @@ public class GlobalHandler {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> handleEmailAlreadyExists(NotFoundException exists) {
+    public ResponseEntity<?> handleNotFoundException(NotFoundException exists) {
         ExceptionResponse exceptionResponse = new ExceptionResponse();
         exceptionResponse.setCode(HttpStatus.NOT_FOUND.value());
         exceptionResponse.setMessage(exists.getMessage());
