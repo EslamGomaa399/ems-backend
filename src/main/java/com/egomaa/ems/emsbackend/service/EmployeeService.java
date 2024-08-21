@@ -94,13 +94,7 @@ public class EmployeeService{
         return employees.stream()
                 .map(employee -> {
                     if (employee.getIsDeleted() == 0){
-                        EmployeeDTO employeeDTO = new EmployeeDTO();
-                        employeeDTO.setEmployeeId(employee.getEmployeeId());
-                        employeeDTO.setFirstName(employee.getFirstName());
-                        employeeDTO.setLastName(employee.getLastName());
-                        employeeDTO.setEmail(employee.getEmail());
-                        employeeDTO.setJobTitle(employee.getJob().getJobTitle());
-                        employeeDTO.setDepartmentName(employee.getDepartment().getDepartmentName());
+                        EmployeeDTO employeeDTO = mapToEmployeeDTO(employee);
                         return employeeDTO;
                     }
                     return null;
@@ -112,4 +106,45 @@ public class EmployeeService{
     public void deleteEmployeeById(Long id) {
         employeeRepository.deleteEmployee(id);
     }
+
+    public EmployeeDTO getEmployeeById(Long id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee not found with id : " + id));
+        return mapToEmployeeDTO(employee);
+    }
+
+
+    public Employee getManagerByEmployeeId(Long employeeId) {
+        Employee manager = employeeRepository.findById(employeeId)
+                .orElseThrow(null);
+        return manager;
+    }
+
+    public EmployeeDTO mapToEmployeeDTO(Employee employee) {
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEmployeeId(employee.getEmployeeId());
+        employeeDTO.setFirstName(employee.getFirstName());
+        employeeDTO.setLastName(employee.getLastName());
+        employeeDTO.setEmail(employee.getEmail());
+        employeeDTO.setJobTitle(employee.getJob().getJobTitle());
+        employeeDTO.setDepartmentName(employee.getDepartment().getDepartmentName());
+        employeeDTO.setHireDate(employee.getHireDate());
+        employeeDTO.setPhoneNumber(employee.getPhoneNumber());
+        employeeDTO.setSalary(employee.getSalary());
+
+        Employee manager = getManagerByEmployeeId(employee.getEmployeeId());
+        String managerFullName = manager.getFirstName() + " " + manager.getLastName();
+        employeeDTO.setManagerName(managerFullName);
+
+        employeeDTO.setCountry(employee.getAddress().getCountry());
+        employeeDTO.setCity(employee.getAddress().getCity());
+        employeeDTO.setStreet(employee.getAddress().getStreet());
+        employeeDTO.setPostalCode(employee.getAddress().getPostalCode());
+
+        return employeeDTO;
+    }
+
+
+
+
 }

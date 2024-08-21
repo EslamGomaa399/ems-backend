@@ -20,7 +20,6 @@ public class EmployeeController {
 
     private final EmployeeService employeeService ;
 
-
     @GetMapping("/employees")
     public ResponseEntity<?> getAllEmployees(){
         List<EmployeeDTO> allEmployees = employeeService.getAllEmployees();
@@ -35,7 +34,11 @@ public class EmployeeController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<?> getEmployeeById(@PathVariable Long id){
+        EmployeeDTO employeeById = employeeService.getEmployeeById(id);
+        return new ResponseEntity<>(employeeById,HttpStatus.OK);
+    }
 
     @PostMapping("employees")
     public ResponseEntity<?> addNewEmployee(@RequestBody EmployeeDTO employeeDTO) throws ParseException {
@@ -49,6 +52,11 @@ public class EmployeeController {
         return new ResponseEntity<>(allManagersNames, HttpStatus.CREATED);
     }
 
+    @GetMapping("managers/{employeeId}")
+    public ResponseEntity<?> getManagerByEmployeeId(@PathVariable Long employeeId) {
+        Employee manager = employeeService.getManagerByEmployeeId(employeeId);
+        return new ResponseEntity<>(manager, HttpStatus.CREATED);
+    }
 
 
 }
