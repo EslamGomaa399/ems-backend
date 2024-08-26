@@ -10,7 +10,7 @@ public class EmsBackendApplication {
 
     public static void main(String[] args) throws ParseException {
         SpringApplication.run(EmsBackendApplication.class, args);
-
+        System.out.println("-------------------------------");
     }
 
 }
