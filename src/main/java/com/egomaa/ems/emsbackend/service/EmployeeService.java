@@ -92,13 +92,8 @@ public class EmployeeService{
     public List<EmployeeDTO> getAllEmployees() {
         List<Employee> employees = employeeRepository.findAll();
         return employees.stream()
-                .map(employee -> {
-                    if (employee.getIsDeleted() == 0){
-                        EmployeeDTO employeeDTO = mapToEmployeeDTO(employee);
-                        return employeeDTO;
-                    }
-                    return null;
-                })
+                .filter(employee -> employee.getIsDeleted() == 0)
+                .map(this::mapToEmployeeDTO)
                 .collect(Collectors.toList());
     }
 
